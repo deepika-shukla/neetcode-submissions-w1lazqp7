@@ -1,0 +1,32 @@
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        # This is memomization solution
+        # we will use dp, divding into subproblems
+        # dp = {len(s) : 1} # if we reach last index we are able to get combinations
+        # def dfs(i):
+        #     if i in dp:
+        #         return dp[i]
+        #     elif s[i] == "0":
+        #         # we can't continue this path
+        #         return 0
+        #     res = dfs(i+1)
+        #     if (i+1 < len(s)) and (s[i] == "1" or (s[i] == "2" and s[i+1] in "0123456")):
+        #         res += dfs(i+2)
+        #     dp[i] = res
+        #     return res
+        
+        # return dfs(0)
+
+
+        # <<<<<<<<<<<<<<< dp solution >>>>>>>>>>>>>>> 
+
+        dp = {len(s) : 1}
+        for i in range(len(s) - 1, -1, -1):
+            if s[i] == "0":
+                dp[i] = 0
+            else:
+                dp[i] = dp[i+1]
+            
+            if (i+1 < len(s)) and (s[i] == "1" or (s[i] == "2" and s[i+1] in "0123456")):
+                dp[i] += dp[i+2]
+        return dp[0]
